@@ -1,0 +1,23 @@
+{
+  "name": "hat-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for placing hats on people in images",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShelfGames/hat-bot.git"
+  },
+  "author": "Shelf Games Ltd.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShelfGames/hat-bot/issues"
+  },
+  "homepage": "https://github.com/ShelfGames/hat-bot#readme"
+}
