@@ -4,7 +4,8 @@
   "description": "Discord bot for placing hats on people in images",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "jimp": "^0.6.4"
   },
   "devDependencies": {},
   "scripts": {
