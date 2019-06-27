@@ -1,6 +1,6 @@
-# Hat Bot
+![Hat Bot](http://shelf.games/images/hat-bot-banner.gif)
 
-Turn anyone into an leading fashion inflencer with this cool Discord bot.
+Turn anyone into an leading fashion influencer with this cool Discord bot.
 
 ## Main Features
 * Adding hats
