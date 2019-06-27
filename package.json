@@ -6,7 +6,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bluebird": "^3.5.5",
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "jimp": "^0.6.4"
   },
   "devDependencies": {
     "jest": "^24.8.0"
