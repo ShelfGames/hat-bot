@@ -18,6 +18,10 @@ function noImageDownloaded () {
     return new HatError(4, "The image passed to the response generator was null or undefined");
 }
 
+function noFaces() {
+    return new HatError(4, "No faces to process")
+}
+
 class HatError extends Error {
     constructor(id, reason) {
         super(reason);
@@ -32,4 +36,5 @@ module.exports = {
     noImageDownloaded,
     invalidStatmachineResponseType,
     noResponseForStateMachineResponse,
+    noFaces,
 }

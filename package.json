@@ -7,7 +7,9 @@
     "axios": "^0.19.0",
     "bluebird": "^3.5.5",
     "discord.js": "^11.5.1",
-    "jimp": "^0.6.4"
+    "face-api.js": "^0.20.0",
+    "jimp": "^0.6.4",
+    "opencv": "^6.2.0"
   },
   "devDependencies": {
     "jest": "^24.8.0"

@@ -1,34 +1,66 @@
+const Jimp = require('jimp');
+const Promise = require('bluebird');
 
+const Errors = require('../Errors/Error');
 
-Jimp.read(message.attachments.first().url).then(function (image) {
+var hatSizeMultipler = 1.5;
 
-    Jimp.read('test-hat-' + randNumber + '.png').then(function(hat) {
+function downloadImage (url) {	
+	return Jimp.read(url)
+	.then ((image) => {
+		Promise.promisify(image.write);
+		var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
+		return Promise.props( { path: imagePath, outputFile:image.write(imagePath) });
+	})
+	.then ((result) => {
+		return Promise.resolve(result.path)
+	});
+}
 
-        hat.scale(0.1);
+function placeHat(imageURL, faceData) {
+	var randNumber = Math.floor(Math.random() * 21 + 1);
+	return Jimp.read(imageURL).then((image) => image)
+		.then((image) => {
+			// Read the users image and a rand hat image
+			return Promise.props({ image: image, hat: Jimp.read('images/hat-' + randNumber + '.png') });
+		})
+		.then((result) => {
+			if (!result && !result.faces) {
+				throw Errors.noFaces();
+			}
+			
+			var hat = result.hat;
+			var image = result.image;
+			var faces = faceData;
 
-        var imageW = image.bitmap.width;
-        var imageH = image.bitmap.height;
+			hat.scale(0.1);
 
-        var hatW = hat.bitmap.width;
-        var hatH = hat.bitmap.height;
+			for (var i = 0; i<faces.length; i++) {
 
-        image.composite(hat, (imageW/2 - hatW/2), (imageH/2 - hatH/2));
+				var faceHeight = faces[i].height;
+				var faceWidth = faces[i].width;
 
-        let outputfile = "./output/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
-        image.write(outputfile, function () {
+				var imageWidth = image.getWidth();
+				var imageHeight = image.getHeight();
 
-        message.channel.sendFile(outputfile).then(function () {
+				var offset = imageWidth / faceWidth;
+				
+				image.composite(hat, faces[i].x,
+									 faces[i].y );
+			}
 
-        fs.unlink(outputfile);
-        message.channel.stopTyping()
-        
-      });
+			var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
 
-    });
+			Promise.promisify(image.write);
 
-});
-
+			return Promise.props( { path: imagePath, outputFile:image.write(imagePath) });
+		})
+		.then ((result) => {
+			return Promise.resolve(result.path);
+		});
+}
 
 module.exports = {
-    
+	downloadImage,
+	placeHat
 };

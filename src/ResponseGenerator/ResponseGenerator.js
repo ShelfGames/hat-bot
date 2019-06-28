@@ -2,7 +2,7 @@ const Errors = require('../Errors/Error');
 const Promise = require('bluebird');
 
 /// The bots help response
-const helpText = "```Here's some help```";
+const helpText = "```Upload a photograph including the word 'hat' or 'hats' in the comment. A random hat will be added to each person detected.```";
 
 function generateResponse (statemachineResponse, image) {
     return new Promise((resolve, reject) => {
@@ -25,8 +25,6 @@ function generateResponse (statemachineResponse, image) {
         else {
             reject(Errors.invalidStatmachineResponseType(tatemachineResponse.type));
         }
-
-        console.log()
     });
 }   
 
