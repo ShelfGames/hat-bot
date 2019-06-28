@@ -3,6 +3,8 @@ const Promise = require('bluebird');
 
 const Errors = require('../Errors/Error');
 
+var hatSizeMultipler = 1.5;
+
 function downloadImage (url) {	
 	return Jimp.read(url)
 	.then ((image) => {
@@ -20,7 +22,7 @@ function placeHat(imageURL, faceData) {
 	return Jimp.read(imageURL).then((image) => image)
 		.then((image) => {
 			// Read the users image and a rand hat image
-			return Promise.props({ image: image, hat: Jimp.read('/images/hat-' + randNumber + '.png') });	
+			return Promise.props({ image: image, hat: Jimp.read('images/hat-' + randNumber + '.png') });
 		})
 		.then((result) => {
 			if (!result && !result.faces) {
@@ -43,11 +45,10 @@ function placeHat(imageURL, faceData) {
 
 				var offset = imageWidth / faceWidth;
 
-				hat = hat.scaleToFit(imageWidth, imageHeight);
+				hat = hat.scaleToFit(faceWidth * hatSizeMultipler, faceHeight * hatSizeMultipler);
 
-				// DEBUG STUFF: REMOVE
-				image.composite(hat, faces[i].x,
-									 faces[i].y - (faces[i].height/2));
+				image.composite(hat, faces[i].x - (faces[i].width/2),
+									 faces[i].y - (faces[i].height));
 			}
 
 			var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
