@@ -11,6 +11,12 @@ const { detectFaces } = require('./FaceRecognition/FaceRecognition');
 
 const config = require('../config.json');
 
+/*
+	NOTES:
+		The project is still rough so there are still some bugs
+		although it demonstrates the overall principle
+*/
+
 /* ============ Discord bot events ========= */
 
 client.once('ready', () => {
