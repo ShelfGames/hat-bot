@@ -6,6 +6,8 @@ const Promise = require('bluebird');
 
 const StateMachine = require('./StateMachine/StateMachine');
 const { generateResponse } = require('./ResponseGenerator/ResponseGenerator');
+const { placeHat, downloadImage } = require('./ImageManipulation/ImageManipulator');
+const { detectFaces } = require('./FaceRecognition/FaceRecognition');
 
 const config = require('../config.json');
 
@@ -16,32 +18,43 @@ client.once('ready', () => {
 });
 
 // Keeps the bot from talking while debugging
-var SILENT = false;
+var SILENT = true;
 
 client.on('message', message => {
-
 	/// Put the users message through a statemachine
 	StateMachine.parseMessage(message)
+	// downloadImage
 	.then ((stateMachineResponse) => {
-		if (stateMachineResponse != null) {
-			if (stateMachineResponse.type === "image") {
-				return Promise.props({ stateMachineResponse: stateMachineResponse, image: axios.get(stateMachineResponse.imageURL)});
-			}
-			else {
-				return Promise.props({ stateMachineResponse: stateMachineResponse, image: null});
-			}
-		}
-		else {
-			throw null;
-		}
+		if (stateMachineResponse == null) throw null;
+		return Promise.props ({ stateMachineResponse: stateMachineResponse, 
+								imagePath: downloadImage(stateMachineResponse.imageURL) });
 	})
-	
-	.then((result) => generateResponse(result.stateMachineResponse, result.image))
+	/// Find where the faces are
+	.then((result) => {
+		if (result == null) throw null;
+		return Promise.props( { stateMachineResponse: result.stateMachineResponse, 
+								hatPath: result.imagePath,
+								faceData: detectFaces(result.imagePath) } );
+	})
+	/// Place the hat on the heads
+	.then((result) => {
+		if (result == null) throw null;
+		return Promise.props( { stateMachineResponse: result.stateMachineResponse,
+								hatPath: result.hatPath,
+								hatPath: placeHat(result.hatPath, result.faceData) } );
+	})
+	/// Send the image back
+	.then((result) => { 
+		message.channel.sendFile(result.hatPath);
+		throw null;
+	})
+	/// Respond with extra stuff
 	.then((response) => {
 		if (response && !SILENT) {
 			message.channel.send(response);
 		}
 	})
+	// catch errors
 	.catch((error) => {
 		if (!SILENT && error !== null) {
 			console.log(error);

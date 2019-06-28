@@ -25,8 +25,6 @@ function generateResponse (statemachineResponse, image) {
         else {
             reject(Errors.invalidStatmachineResponseType(tatemachineResponse.type));
         }
-
-        console.log()
     });
 }   
 

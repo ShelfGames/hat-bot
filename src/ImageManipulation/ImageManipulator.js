@@ -1,34 +1,57 @@
+const Jimp = require('jimp');
+const Promise = require('bluebird');
 
+const fs = require('fs');
 
-Jimp.read(message.attachments.first().url).then(function (image) {
+// const hat = require('../Static/Hats/test-hat-1.png');
 
-    Jimp.read('test-hat-' + randNumber + '.png').then(function(hat) {
+function downloadImage (url) {	
+	return Jimp.read(url)
+	.then ((image) => {
+		Promise.promisify(image.write);
+		var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
+		return Promise.props( { path: imagePath, outputFile:image.write(imagePath) });
+	})
+	.then ((result) => {
+		return Promise.resolve(result.path)
+	});
+}
 
-        hat.scale(0.1);
+function placeHat(imageURL, faceData) {
+	var randNumber = Math.floor(Math.random() * 3 + 1);
+	return Jimp.read(imageURL).then((image) => image)
+		.then((image) => {
+			// Read the users image and a rand hat image
+			return Promise.props({ image: image, hat: Jimp.read('test-hat-1.png') });	
+		})
+		.then((result) => {
+			var hat = result.hat;
+			var image = result.image;
+			var faces = faceData;
 
-        var imageW = image.bitmap.width;
-        var imageH = image.bitmap.height;
+			hat.scale(0.1);
+			// var imageW = image.bitmap.width;
+			// var imageH = image.bitmap.height;
 
-        var hatW = hat.bitmap.width;
-        var hatH = hat.bitmap.height;
+			// var hatW = hat.bitmap.width;
+			// var hatH = hat.bitmap.height;
 
-        image.composite(hat, (imageW/2 - hatW/2), (imageH/2 - hatH/2));
+			for (var i = 0; i<faces.length; i++) {
+				image.composite(hat, faces[i].x, faces[i].y);
+			}
 
-        let outputfile = "./output/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
-        image.write(outputfile, function () {
+			var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();
 
-        message.channel.sendFile(outputfile).then(function () {
+			Promise.promisify(image.write);
 
-        fs.unlink(outputfile);
-        message.channel.stopTyping()
-        
-      });
-
-    });
-
-});
-
+			return Promise.props( { path: imagePath, outputFile:image.write(imagePath) });
+		})
+		.then ((result) => {
+			return Promise.resolve(result.path);
+		});
+}
 
 module.exports = {
-    
+	downloadImage,
+	placeHat
 };

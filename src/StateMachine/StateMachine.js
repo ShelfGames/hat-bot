@@ -42,7 +42,7 @@ function parseMessage (message) {
         }
 
         // get the iamge url
-        imageURL = message.attachments.array()[0].proxyURL;
+        imageURL = message.attachments.first().url
 
         // Generate a random hat image
         if (Commands.randomHatsCmd.test(message)) {
@@ -52,8 +52,6 @@ function parseMessage (message) {
     else {
         return Promise.resolve(null);
     }
-
-    // return Promise.reject(Errors.nonFiniteStateMachine());
 }
 
 module.exports = {
