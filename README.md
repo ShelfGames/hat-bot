@@ -17,6 +17,6 @@ Please note that at the moment, Hat Bot will sadly only detect human faces.
 
 ## About
 
-Made by ```HurrieCrane#5319``` & ```lobstor#7802``` for [Discord Hack Week 2019](https://blog.discordapp.com/discord-community-hack-week-build-and-create-alongside-us-6b2a7b7bba33).
+Made by ```HurrieCrane#5319``` & ```lobstor#7802``` for [Discord Hack Week 2019](https://blog.discordapp.com/discord-community-hack-week-build-and-create-alongside-us-6b2a7b7bba33) 🤠
 
 ![Wizard Hat](http://shelf.games/images/hat-bot-footer.gif)
