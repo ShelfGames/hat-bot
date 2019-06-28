@@ -44,11 +44,9 @@ function placeHat(imageURL, faceData) {
 				var imageHeight = image.getHeight();
 
 				var offset = imageWidth / faceWidth;
-
-				hat = hat.scaleToFit(faceWidth * hatSizeMultipler, faceHeight * hatSizeMultipler);
-
-				image.composite(hat, faces[i].x - (faces[i].width/2),
-									 faces[i].y - (faces[i].height));
+				
+				image.composite(hat, faces[i].x,
+									 faces[i].y );
 			}
 
 			var imagePath = "./.temp/" + Math.random().toString(36).substr(2, 5) + "hat." + image.getExtension();

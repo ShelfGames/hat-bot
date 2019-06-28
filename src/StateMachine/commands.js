@@ -1,8 +1,5 @@
-
-const botWord = "tah";
-
-let helpcmd = new RegExp(/^\!tah\shelp$/);
-let randomHatsCmd = new RegExp(/^\!tah\srandHats$/);
+let helpcmd = new RegExp(/^\!hat\shelp$/);
+let randomHatsCmd = new RegExp(/^\!hat|\!hats$/);
 
 let ping = new RegExp(/^\!ping$/);
 
