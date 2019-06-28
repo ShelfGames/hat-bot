@@ -58,7 +58,7 @@ client.on('message', message => {
 	.catch((error) => {
 		if (!SILENT && error !== null) {
 			console.log(error);
-			message.channel.send("Ooops there was some sort of error! :(");
+			message.channel.send("Big error energy");
 		}
 	});
 

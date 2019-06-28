@@ -18,11 +18,11 @@ function downloadImage (url) {
 }
 
 function placeHat(imageURL, faceData) {
-	var randNumber = Math.floor(Math.random() * 3 + 1);
+	var randNumber = Math.floor(Math.random() * 21 + 1);
 	return Jimp.read(imageURL).then((image) => image)
 		.then((image) => {
 			// Read the users image and a rand hat image
-			return Promise.props({ image: image, hat: Jimp.read('test-hat-1.png') });	
+			return Promise.props({ image: image, hat: Jimp.read('/images/hat-' + randNumber + '.png') });	
 		})
 		.then((result) => {
 			var hat = result.hat;
@@ -30,6 +30,7 @@ function placeHat(imageURL, faceData) {
 			var faces = faceData;
 
 			hat.scale(0.1);
+
 			// var imageW = image.bitmap.width;
 			// var imageH = image.bitmap.height;
 
