@@ -18,7 +18,7 @@ client.once('ready', () => {
 });
 
 // Keeps the bot from talking while debugging
-var SILENT = true;
+var SILENT = false;
 
 client.on('message', message => {
 	/// Put the users message through a statemachine
@@ -26,6 +26,7 @@ client.on('message', message => {
 	// downloadImage
 	.then ((stateMachineResponse) => {
 		if (stateMachineResponse == null) throw null;
+		message.channel.startTyping()
 		return Promise.props ({ stateMachineResponse: stateMachineResponse, 
 								imagePath: downloadImage(stateMachineResponse.imageURL) });
 	})
@@ -41,11 +42,11 @@ client.on('message', message => {
 		if (result == null) throw null;
 		return Promise.props( { stateMachineResponse: result.stateMachineResponse,
 								hatPath: result.hatPath,
-								hatPath: placeHat(result.hatPath, result.faceData) } );
+								imageWithHatPath: placeHat(result.hatPath, result.faceData) } );
 	})
 	/// Send the image back
 	.then((result) => { 
-		message.channel.sendFile(result.hatPath);
+		message.channel.sendFile(result.imageWithHatPath);
 		throw null;
 	})
 	/// Respond with extra stuff
@@ -61,7 +62,8 @@ client.on('message', message => {
 			message.channel.send("Big error energy");
 		}
 	});
-
+	// stop typing
+	message.channel.stopTyping()
 });
 
 client.login(config.token);
