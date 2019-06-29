@@ -8,9 +8,7 @@ Turn anyone into an leading fashion influencer with this cool Discord bot.
 * Adding hats 🎩👒
 
 ## Using Hat Bot
-Add Hat Bot to your server using this [link](https://discordapp.com/api/oauth2/authorize?client_id=592777462522445825&permissions=34816&scope=bot).
-
-In order for this bot to work properly you need to create a file called config.json at the root of the project, inside it must contain the following JSON:
+In order for Hat Bot to work properly you need to create a file called config.json at the root of the project, inside it must contain the following JSON:
 
 ```json
 {
